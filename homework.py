@@ -1,4 +1,4 @@
-from typing import Dict, NoReturn, Type
+from typing import Dict, Type
 from dataclasses import dataclass
 
 
