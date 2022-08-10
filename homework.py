@@ -12,12 +12,11 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
-        msg = (f'Тип тренировки: {self.training_type}; '
-               f'Длительность: {self.duration:.3f} ч.; '
-               f'Дистанция: {self.distance:.3f} км; '
-               f'Ср. скорость: {self.speed:.3f} км/ч; '
-               f'Потрачено ккал: {self.calories:.3f}.')
-        return msg
+        return (f'Тип тренировки: {self.training_type}; '
+                f'Длительность: {self.duration:.3f} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
 
 
 class Training:
@@ -47,17 +46,16 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise NotImplementedError(f'Нет реализации метода в классе:'
-                                  f'{type(self).__name__}')
+        raise NotImplementedError('Нет реализации метода в классе:'
+                                  + f'{type(self).__name__}')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        training_info = InfoMessage(type(self).__name__,
-                                    self.duration_h,
-                                    self.get_distance(),
-                                    self.get_mean_speed(),
-                                    self.get_spent_calories())
-        return training_info
+        return InfoMessage(type(self).__name__,
+                           self.duration_h,
+                           self.get_distance(),
+                           self.get_mean_speed(),
+                           self.get_spent_calories())
 
 
 class Running(Training):
@@ -137,9 +135,9 @@ def read_package(workout_type: str, data: list) -> Training:
         'RUN': Running,
         'WLK': SportsWalking
     }
-    if not workout_type:
-        message = (f'Нет такой тренировки: {workout_type}'
-                   f'Ожидали: {str.join(*workout_type)}')
+    if workout_type not in training_type:
+        message = (f"Нет такой тренировки: {workout_type}"
+                   f"Ожидали: {', '.join(training_type)}")
         raise ValueError(message)
     return training_type[workout_type](*data)
 
